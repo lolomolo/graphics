@@ -10,11 +10,6 @@ int viewAngle = 180; //degrees
 int line1[2][3] = {{1,1,0},{1,1,1}};
 int resMat[3][3];
 
-struct sMat {
-	int size;
-	int arr[][3];
-};
-
 int matMult(int a[][3], int b[][3], int sizeI, int sizeJ) {
 	//int resMat[sizeI][sizeJ]; //resultant matrix from a and b multiplication
 
