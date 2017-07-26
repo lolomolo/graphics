@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <math.h>
 
-#define PI 3.14159265
+struct s3Mat {
+	int arr[3][3];
+} a;
 
 void printMat( int arr[][3], int sizeI, int sizeJ);
 
@@ -10,10 +12,6 @@ int viewAngle = 180; //degrees
 int line1[2][3] = {{1,1,0},{1,1,1}};
 int resMat[3][3];
 
-struct sMat {
-	int size;
-	int arr[][3];
-};
 
 int matMult(int a[][3], int b[][3], int sizeI, int sizeJ) {
 	//int resMat[sizeI][sizeJ]; //resultant matrix from a and b multiplication
@@ -33,39 +31,33 @@ int proj(int v[], int p[]) {	//project p onto v, return prjection vector
 	return projVec;
 }
 
-void printMat( int arr[][3], int sizeI, int sizeJ) {
-	int tempSum;
-
+void printMat(struct s3Mat a, int sizeI, int sizeJ) {
 	for(int i = 0; i < sizeI; i++) {
 		for(int j = 0; j < sizeJ; j++) {
 			
-			printf("%d", arr[i][j]);
+			printf("%d", a.arr[i][j]);
 			printf(" ");
 		}
 		printf("\n"); 
 	}
 }
 
+s3Mat arrInit(struct s3Mat a) {
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			a.arr[i][j]=i+2*j;
+		}
+	}
+	return a;
+}
+
 int main() {
-	printf("\nhello world!\n");
-	printf("PI: %f\n", PI);
-	double x = atan(.5)*180/PI;
-	printf("PI: %f\n", x);
+	int height = 3;
+	int width = 3;
 
-	//printArray(view, 2, 3);
+	a = arrInit(a);
 
-	int a[][3] = {{1,3,0},{2,0,0},{0,0,0}};
-	int b[][3] = {{1,3,0},{2,0,0},{0,0,0}};
-
-	printMat(a,3,3);
-	printf("\n");
-	printMat(b,3,3);
-	printf("\n");
-	matMult(a,b,3,3);
-	printMat(resMat,3,3);
-	printf("\n");
-
-	//new mat Mat
+	printMat(a, height, width);
 	
 	return 0;
 }
