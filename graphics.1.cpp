@@ -7,7 +7,7 @@ struct vec3 {
 
 struct s3Mat {
 	int arr[3][3];
-} a;
+} a, b;
 
 int view[2][3] = {{0,0,0},{0,1,0}}; //viewing from (1,1,0) in the direction of (2,2,0) 
 int viewAngle = 180; //degrees
@@ -42,7 +42,7 @@ void printVec(struct vec3 v, int sizeI) {
 s3Mat matInit(struct s3Mat a) {
 	for(int i = 0; i < 3; i++) {
 		for(int j = 0; j < 3; j++) {
-			a.arr[i][j]=i+2*j;
+			a.arr[i][j]=i+j;
 		}
 	}
 	return a;
@@ -55,17 +55,32 @@ vec3 vecInit(struct vec3 v) {
 	return v;
 }
 
+s3Mat matMult(struct s3Mat a, struct s3Mat b) {
+	s3Mat c;
+
+	for(int i = 0; i < 3; i++) {
+		for(int j = 0; j < 3; j++) {
+			for(int k = 0; k < 3; k++) {
+                c.arr[i][j] += a.arr[i][k] * b.arr[k][j];
+			}
+		}
+	} 
+	return c;
+}
 
 int main() {
 	int height = 3;
 	int width = 3;
 
 	a = matInit(a);
-	v = vecInit(v);
+	b = matInit(b);
 
+	s3Mat s = matMult(a,b);
+	
 	printMat(a, height, width);
 	printf("\n"); 
-	printVec(v, height);
+	printMat(s, height, width);
+	printf("\n");
 	
 	return 0;
 }
