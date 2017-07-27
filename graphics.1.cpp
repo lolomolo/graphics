@@ -1,8 +1,41 @@
 #include <stdio.h>
 #include <math.h>
 
+
 struct vec3 {
-	int vec[3];
+	double vec[3];
+
+	void Init() {
+	for(int i = 0; i < 3; i++) {
+		vec[i]=i;
+		}
+	}
+	
+	vec3 Normalize() {
+		vec3 retVec;
+		retVec.Init();
+		 double length = GetLength();
+		 for(int i = 0; i < 3; i++) {
+			 retVec.vec[i] /= length;
+		 }
+		 return retVec;
+	}
+
+	void Print() {
+		for(int i = 0; i < 3; i++) {
+		printf("%f", vec[i]);
+		printf(" ");
+	}
+	printf("\n"); 
+	}
+
+	double GetLength() {
+		double ret = 0;
+		for(int i = 0; i < 3; i++) {
+			ret += vec[i]*vec[i];
+		}
+		return (sqrt(ret));
+	}
 } v;
 
 struct line {
@@ -15,9 +48,7 @@ struct line {
 		for(int i = 0; i < 3; i++) {
 			temp.vec[i] = pE[i] - pS[i];	//turn line into vec that origionates at the origin
 		}
-		for(int i = 0; i < 3; i++) {
-			ret += temp.vec[i]*temp.vec[i];
-		}
+		ret=temp.GetLength();
 		return(sqrt(ret));
 	}
 } l;
@@ -25,13 +56,6 @@ struct line {
 struct s3Mat {
 	int arr[3][3];
 } a, b;
-
-/*
-int view[2][3] = {{0,0,0},{0,1,0}}; //viewing from (1,1,0) in the direction of (2,2,0) 
-int viewAngle = 180; //degrees
-int line1[2][3] = {{1,1,0},{1,1,1}};
-int resMat[3][3];
-*/
 
 void printMat(s3Mat a, int sizeI, int sizeJ) {
 	for(int i = 0; i < sizeI; i++) {
@@ -42,14 +66,6 @@ void printMat(s3Mat a, int sizeI, int sizeJ) {
 		}
 		printf("\n"); 
 	}
-}
-
-void printVec(vec3 v, int length) {
-	for(int i = 0; i < length; i++) {
-		printf("%d", v.vec[i]);
-		printf(" ");
-	}
-	printf("\n"); 
 }
 
 void printLine(line l, int length) {
@@ -104,18 +120,6 @@ s3Mat matMult(struct s3Mat a, struct s3Mat b) {
 	return c;
 }
 /*
-double lineLength(struct line l) {
-	vec3 temp;
-	double ret = 0;
-	for(int i = 0; i < 3; i++) {
-		temp.vec[i] = l.pE[i] - l.pS[i];	//turn line into vec that origionates at the origin
-	}
-	for(int i = 0; i < 3; i++) {
-		ret += temp.vec[i]*temp.vec[i];
-	}
-	return(sqrt(ret));
-}
-
 line proj(line p, line v) {	//project p onto v, return prjection vector
 	//if(p.pS!=v.pS) { }  //make some error shit if the starting point of the two lines are different
 	line retLine;
@@ -140,13 +144,24 @@ int main() {
 	printf("\n");
 */
 
-	
+	v = vecInit(v);
+	printf("v: \n");
+	v.Print();
 
+
+	vec3 tempV;
+	printf("call normalize on v: \n");
+	tempV = v.Normalize();
+	printf("tempV: \n");
+	tempV.Print();
+/*
 	l = lineInit(l);
 
 	printLine(l,3);
 
+
 	printf("%f", l.GetLength());
+	*/
 	printf("\n");
 
 	return 0;
