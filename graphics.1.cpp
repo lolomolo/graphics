@@ -5,18 +5,18 @@
 struct vec3 {
 	double vec[3];
 
-	void Init() {
-	for(int i = 0; i < 3; i++) {
-		vec[i]=i;
-		}
+	void Init(double a, double b, double c) {
+		vec[0]=a;
+		vec[1]=b;
+		vec[2]=c;
 	}
 	
 	vec3 Normalize() {
 		vec3 retVec;
-		retVec.Init();
+		retVec.Init(0,0,0);
 		 double length = GetLength();
 		 for(int i = 0; i < 3; i++) {
-			 retVec.vec[i] /= length;
+			 retVec.vec[i] = vec[i]/length;
 		 }
 		 return retVec;
 	}
@@ -144,23 +144,23 @@ int main() {
 	printf("\n");
 */
 
-	v = vecInit(v);
+	v.Init(3,4,5);
 	printf("v: \n");
 	v.Print();
-
+	printf("the length of v: %f \n", v.GetLength());
 
 	vec3 tempV;
-	printf("call normalize on v: \n");
 	tempV = v.Normalize();
 	printf("tempV: \n");
 	tempV.Print();
+	printf("the length of tempV: %f \n", tempV.GetLength());
 /*
 	l = lineInit(l);
 
 	printLine(l,3);
 
 
-	printf("%f", l.GetLength());
+
 	*/
 	printf("\n");
 
