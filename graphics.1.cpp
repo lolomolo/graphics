@@ -4,25 +4,27 @@
 
 struct vec3 {
 	double vec[3];
+	int vecLength;
 
-	void Init(double a, double b, double c) {
-		vec[0]=a;
-		vec[1]=b;
-		vec[2]=c;
+	void Init(int l, double a, double b, double c) {
+		vecLength = l;
+		vec[0] = a;
+		vec[1] = b;
+		vec[2] = c;
 	}
 	
 	vec3 Normalize() {
 		vec3 retVec;
-		retVec.Init(0,0,0);
+		retVec.Init(3,0,0,0);
 		 double length = GetLength();
-		 for(int i = 0; i < 3; i++) {
+		 for(int i = 0; i < vecLength; i++) {
 			 retVec.vec[i] = vec[i]/length;
 		 }
 		 return retVec;
 	}
 
 	void Print() {
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < vecLength; i++) {
 		printf("%f", vec[i]);
 		printf(" ");
 	}
@@ -31,7 +33,7 @@ struct vec3 {
 
 	double GetLength() {
 		double ret = 0;
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < vecLength; i++) {
 			ret += vec[i]*vec[i];
 		}
 		return (sqrt(ret));
@@ -39,8 +41,33 @@ struct vec3 {
 } v;
 
 struct line {
-	int pS[3];
-	int pE[3];
+	double pS[3];
+	double pE[3];
+	int lineLength;
+
+	void Init(int l, double a1, double b1, double c1, double a2, double b2, double c2) {
+		lineLength = l;
+		pS[0] = a1;
+		pS[1] = b1;
+		pS[2] = c1;
+
+		pE[0] = a2;
+		pE[1] = b2;
+		pE[2] = c2;
+	}
+
+	void Print() {
+		for(int i = 0; i < 3; i++) {
+			printf("%f", pS[i]);
+			printf(" ");
+		}
+		printf(" ");
+		for(int j = 0; j < 3; j++) {
+			printf("%f", pE[j]);
+			printf(" ");
+		}
+		printf("\n");
+	}
 
 	double GetLength() {
 		vec3 temp;
@@ -51,8 +78,18 @@ struct line {
 		ret=temp.GetLength();
 		return(sqrt(ret));
 	}
+
+	vec3 Vectorize() {
+		vec3 retVec;
+		retVec.Init(3,0,0,0);
+		for(int i = 0; i < lineLength; i++) {
+			retVec.vec[i] = pE[i] - pS[i];
+		}
+		return retVec;
+	}
 } l;
 
+/*
 struct s3Mat {
 	int arr[3][3];
 } a, b;
@@ -66,19 +103,6 @@ void printMat(s3Mat a, int sizeI, int sizeJ) {
 		}
 		printf("\n"); 
 	}
-}
-
-void printLine(line l, int length) {
-	for(int i = 0; i < length; i++) {
-		printf("%d", l.pS[i]);
-		printf(" ");
-	}
-	printf(" ");
-	for(int j = 0; j < length; j++) {
-		printf("%d", l.pE[j]);
-		printf(" ");
-	}
-	printf("\n"); 
 }
 
 s3Mat matInit(s3Mat a) {
@@ -97,15 +121,6 @@ vec3 vecInit(vec3 v) {
 	return v;
 }
 
-line lineInit(line l) {
-	for(int i = 0; i < 3; i++) {
-		l.pS[i]=i;
-	}
-	for(int j = 0; j < 3; j++) {
-		l.pE[j]=j+3;
-	}
-	return l;
-}
 
 s3Mat matMult(struct s3Mat a, struct s3Mat b) {
 	s3Mat c;
@@ -119,14 +134,19 @@ s3Mat matMult(struct s3Mat a, struct s3Mat b) {
 	} 
 	return c;
 }
-/*
-line proj(line p, line v) {	//project p onto v, return prjection vector
-	//if(p.pS!=v.pS) { }  //make some error shit if the starting point of the two lines are different
+*/
+vec proj(line p, line v) {	//project p onto v, return prjection vector
+	if(p.pS!=v.pS) { }  //make some error shit if the starting point of the two lines are different
+	vec3 pVec;
+	vec3 vVec;
+	pVec = p.Vectorize();
+	vVec = v.Vectorize();
+	pVec.Print();
 	line retLine;
 	retLine = lineInit(retLine);
 
 }
-*/
+
 
 int main() {
 	int height = 3;
@@ -144,7 +164,7 @@ int main() {
 	printf("\n");
 */
 
-	v.Init(3,4,5);
+	v.Init(3,3,4,5);
 	printf("v: \n");
 	v.Print();
 	printf("the length of v: %f \n", v.GetLength());
@@ -154,14 +174,14 @@ int main() {
 	printf("tempV: \n");
 	tempV.Print();
 	printf("the length of tempV: %f \n", tempV.GetLength());
-/*
-	l = lineInit(l);
 
-	printLine(l,3);
+	l.Init(3,0,1,2,0,2,3);
+
+	l.Print();
 
 
 
-	*/
+	
 	printf("\n");
 
 	return 0;
